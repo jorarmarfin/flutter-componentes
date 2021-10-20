@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _lista() {
-    print(menuProvider.opciones);
+    //print(menuProvider.opciones);
 
     return ListView(
       children: _listaItems(),

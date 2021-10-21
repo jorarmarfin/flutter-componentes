@@ -1,5 +1,8 @@
 import 'package:componentes/src/providers/menu_provider.dart';
+import 'package:componentes/src/utils/icono_string_util.dart';
 import 'package:flutter/material.dart';
+
+import 'alert_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -17,22 +20,26 @@ class HomePage extends StatelessWidget {
       future: menuProvider.cagarData(),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         return ListView(
-          children: _listaItems(snapshot.data),
+          children: _listaItems(snapshot.data, context),
         );
       },
     );
   }
 
-  List<Widget> _listaItems(data) {
+  List<Widget> _listaItems(data, BuildContext context) {
     final List<dynamic> lista = data;
     final List<Widget> opciones = [];
 
     lista.forEach((opt) {
       final widgetTemp = ListTile(
         title: Text(opt['texto']),
-        leading: Icon(Icons.access_alarm, color: Colors.blue),
+        leading: getIcon(opt['icon']),
         trailing: Icon(Icons.keyboard_arrow_right, color: Colors.red),
-        onTap: () {},
+        onTap: () {
+          final route = MaterialPageRoute(builder: (context)=> AlertPage()
+          );
+          Navigator.push(context, route);
+        },
       );
       opciones
         ..add(widgetTemp)
@@ -40,15 +47,4 @@ class HomePage extends StatelessWidget {
     });
     return opciones;
   }
-
-  // List<Widget> _listaItemsSeteado() {
-  //   return [
-  //     ListTile(title: Text('uno')),
-  //     Divider(),
-  //     ListTile(title: Text('dos')),
-  //     Divider(),
-  //     ListTile(title: Text('tres')),
-  //     Divider()
-  //   ];
-  // }
 }
